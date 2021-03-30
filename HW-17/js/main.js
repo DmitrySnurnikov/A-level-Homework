@@ -74,28 +74,40 @@ const studentArr = [{
   ratingPoint: 1560,
   schoolPoint: 200,
   course: 2,
-}];
+},
+];
 class Student{
-  static newStudent = [];
+  static array = [];
   constructor(enrollee){
+    Student.array.push(enrollee);
+    Student.array.sort(function(a,b){
+      return b.ratingPoint-a.ratingPoint || b.schoolPoint-a.schoolPoint;
+    });
     this.name = enrollee.name;
     this.surname = enrollee.surname;
     this.ratingPoint = enrollee.ratingPoint;
     this.schoolPoint = enrollee.schoolPoint;
-    Student.newStudent.push(enrollee);
-    Student.newStudent.sort(function(a,b){
-      return b.ratingPoint - a.ratingPoint || b.schoolPoint - a.schoolPoint;
-    });
+    this.setId();
   }
- 
+  setId(){
+    let i = 0;
+    for(let index in Student.array){
+      if(i>4){
+        Student.array[index].isSelfPayment = true;
+        }
+      else{
+        Student.array[index].isSelfPayment = false;
+        }
+        i++;
+      Student.array[index].id = +index+1;
+    }
+  }
 }
 
-const student = new Student({
-  name: 'Сергей',
-  surname: 'Войлов',
-  ratingPoint: 1000,
-  schoolPoint: 1000,
-  course: 2,
-});
+for(let studentPayLoad of studentArr){
+  new Student(studentPayLoad);
+}
+console.log(Student.array);
+
 
 
