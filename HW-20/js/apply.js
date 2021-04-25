@@ -1,47 +1,26 @@
-// function renderRecord(id, title, body) {
-//   return `
-//   <tr>
-//       <td>${id}</td>
-//       <td>${title}</td>
-//       <td>${body}</td>
-//       <td>
-//           <button class="btn-delete" style="background-color: red">delete</button>
-//           <button class="btn-rec" style="background-color: green">recover</button>
-//       </td>
-//   </tr>
-//   `;
-// }
+const tabs = document.getElementById('tabs');
+const content = document.querySelectorAll('.content');
 
-// const xhr = new XMLHttpRequest();
-// xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+const changeClass = el =>{
+  for(let i=0; i< tabs.children.length; i++){
+    tabs.children[i].classList.remove('active');
+  }
+  el.classList.add('active');
+}
 
+tabs.addEventListener('click', e => {
+  const currTab = e.target.dataset.btn;
+  changeClass(e.target);
+  for(let i = 0; i < content.length; i++){
+    content[i].classList.remove('active');
+    console.log(content[i].dataset.content);
+    if(content[i].dataset.content === currTab){
+      content[i].classList.add('active');
+    }
+  }
+})
 
-// xhr.onload = function () {
-//   const records = JSON.parse(xhr.response);
-//   let tbody = document.querySelector('tbody');
-
-//   let i = 1;
-//   for (let record of records) {
-//       tbody.innerHTML += renderRecord(i++, record.title, record.body);
-//   }
-// };
-
-// xhr.send();
-
-// document.addEventListener('click', function (event) {
-//   const target = event.target;
-//   if (target.classList.contains('btn-delete')) {
-//       target.parentNode.previousSibling.remove();
-//       // target.parentNode.parentNode.remove();
-//   }    
-// }); 
-
-// document.addEventListener('click', function(event){
-//   const target = event.target;
-//   if(target.classList.contains('btn-rec')){
-//     target.parentNode.previousSibling.tbody;
-//   }
-// });
+// Tabls
 
 let records = [];
 class Record{
@@ -66,8 +45,6 @@ class Record{
       return this.isDeleted ? '' : this._body;
     }
 }
-
-
 function render(records){
   let id = 1;
   const tbody = document.querySelector('tbody');
@@ -90,8 +67,7 @@ function renderRecord(id, record) {
         </td>
     </tr>
     `;
-  }
-
+}
 const xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
 
@@ -118,6 +94,7 @@ document.addEventListener('click', function(event){
     render(records);
   }
 });
+
 const title = document.getElementById('title');
 const body = document.getElementById('body');
 const form = document.getElementById('form');
@@ -130,3 +107,16 @@ records.unshift(record);
   body.value = '';
   render(records);
 })
+
+// Search
+
+const search = document.getElementById('search');
+search.addEventListener('click', function(event){
+  event.preventDefault();
+const target = event.target;
+const input = search.querySelector('input');
+if(target.tagName.toLowerCase() ==='button'){
+  console.log('hello', input.value);
+}
+
+});
