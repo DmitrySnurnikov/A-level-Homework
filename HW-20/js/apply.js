@@ -75,6 +75,7 @@ xhr.onload = function(){
   for( let object of JSON.parse(xhr.response)){
     let record = new Record(object.title, object.body);
     records.push(record);
+    console.log(record);
   }
   render(records);
 }
